@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tetris</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="topbar">
+      <div class="title">Tetris</div>
+      <div class="controls">
+        <button id="mode1p" aria-label="1 Player">1P</button>
+        <button id="mode2p" aria-label="2 Players">2P</button>
+        <button id="startBtn" aria-label="Start">Start</button>
+        <button id="pauseBtn" aria-label="Pause">Pause</button>
+        <button id="restartBtn" aria-label="Restart">Restart</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="playfield p1">
+        <div class="board-wrap">
+          <canvas id="board" width="300" height="600" aria-label="Tetris board" role="img"></canvas>
+          <div id="overlay" class="overlay hidden">
+            <div class="modal">
+              <h2>시작하려면 Start 버튼을 누르세요</h2>
+              <p>오디오 초기화를 위해 사용자의 상호작용이 필요합니다.</p>
+              <ul class="help">
+                <li>← →: 좌우 이동</li>
+                <li>↓: 소프트 드랍</li>
+                <li>↑ / X: 시계 방향 회전</li>
+                <li>Z: 반시계 방향 회전</li>
+                <li>Space: 하드 드랍</li>
+                <li>P: 일시정지</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <aside class="sidebar">
+          <div class="panel">
+            <h3>점수</h3>
+            <div id="score">0</div>
+          </div>
+          <div class="panel">
+            <h3>레벨</h3>
+            <div id="level">1</div>
+          </div>
+          <div class="panel">
+            <h3>라인</h3>
+            <div id="lines">0</div>
+          </div>
+          <div class="panel">
+            <h3>다음</h3>
+            <canvas id="next" width="120" height="120"></canvas>
+          </div>
+          <div class="panel small">
+            <h3>조작법 (P1)</h3>
+            <ul class="help compact">
+              <li>← →: 이동</li>
+              <li>↓: 드랍</li>
+              <li>↑/X: 회전</li>
+              <li>Z: 반시계</li>
+              <li>Space: 하드</li>
+              <li>P: 일시정지</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="playfield p2">
+        <div class="board-wrap">
+          <canvas id="board2" width="300" height="600" aria-label="Tetris board P2" role="img"></canvas>
+        </div>
+        <aside class="sidebar">
+          <div class="panel">
+            <h3>점수</h3>
+            <div id="score2">0</div>
+          </div>
+          <div class="panel">
+            <h3>레벨</h3>
+            <div id="level2">1</div>
+          </div>
+          <div class="panel">
+            <h3>라인</h3>
+            <div id="lines2">0</div>
+          </div>
+          <div class="panel">
+            <h3>다음</h3>
+            <canvas id="next2" width="120" height="120"></canvas>
+          </div>
+          <div class="panel small">
+            <h3>조작법 (P2)</h3>
+            <ul class="help compact">
+              <li>A/D: 이동</li>
+              <li>S: 드랍</li>
+              <li>W/K: 회전</li>
+              <li>Q: 반시계</li>
+              <li>Enter: 하드</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
