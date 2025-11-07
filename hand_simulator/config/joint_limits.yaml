@@ -1,0 +1,85 @@
+limits:
+  thumb_cmc:
+    lower: -0.79
+    upper: 0.79
+    velocity: 2.0
+  thumb_mcp:
+    lower: 0.0
+    upper: 1.6
+    velocity: 3.0
+  thumb_ip_prox:
+    lower: 0.0
+    upper: 1.9
+    velocity: 3.0
+  thumb_ip_dist:
+    lower: 0.0
+    upper: 1.9
+    velocity: 3.0
+
+  index_abd:
+    lower: -0.35
+    upper: 0.35
+    velocity: 2.0
+  index_mcp:
+    lower: 0.0
+    upper: 1.6
+    velocity: 3.0
+  index_pip:
+    lower: 0.0
+    upper: 1.8
+    velocity: 3.0
+  index_dip:
+    lower: 0.0
+    upper: 2.0
+    velocity: 3.0
+
+  middle_abd:
+    lower: -0.35
+    upper: 0.35
+    velocity: 2.0
+  middle_mcp:
+    lower: 0.0
+    upper: 1.6
+    velocity: 3.0
+  middle_pip:
+    lower: 0.0
+    upper: 1.8
+    velocity: 3.0
+  middle_dip:
+    lower: 0.0
+    upper: 2.0
+    velocity: 3.0
+
+  ring_abd:
+    lower: -0.35
+    upper: 0.35
+    velocity: 2.0
+  ring_mcp:
+    lower: 0.0
+    upper: 1.6
+    velocity: 3.0
+  ring_pip:
+    lower: 0.0
+    upper: 1.8
+    velocity: 3.0
+  ring_dip:
+    lower: 0.0
+    upper: 2.0
+    velocity: 3.0
+
+  little_abd:
+    lower: -0.35
+    upper: 0.35
+    velocity: 2.0
+  little_mcp:
+    lower: 0.0
+    upper: 1.6
+    velocity: 3.0
+  little_pip:
+    lower: 0.0
+    upper: 1.8
+    velocity: 3.0
+  little_dip:
+    lower: 0.0
+    upper: 2.0
+    velocity: 3.0

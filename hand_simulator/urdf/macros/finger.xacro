@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="finger_macros">
+  <!-- Helper macro to compute inertia of a solid cylinder aligned with Z-axis -->
+  <xacro:macro name="cylinder_inertia" params="mass radius length">
+    <inertia ixx="${mass * (3 * radius * radius + length * length) / 12}"
+             iyy="${mass * (3 * radius * radius + length * length) / 12}"
+             izz="${0.5 * mass * radius * radius}"/>
+  </xacro:macro>
+
+  <xacro:macro name="phalange" params="prefix index length radius mass material">
+    <link name="${prefix}_link_${index}">
+      <visual>
+        <origin xyz="${length/2} 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="${length}" radius="${radius}"/>
+        </geometry>
+        <material name="${material}"/>
+      </visual>
+      <collision>
+        <origin xyz="${length/2} 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="${length}" radius="${radius}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="${length/2} 0 0" rpy="0 0 0"/>
+        <mass value="${mass}"/>
+        <xacro:cylinder_inertia mass="${mass}" radius="${radius}" length="${length}"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="finger_chain" params="prefix parent origin_x:=0 origin_y:=0 origin_z:=0 abd_axis:='0 1 0' material:='HandFinger' prox_length:=0.045 mid_length:=0.03 dist_length:=0.025 prox_radius:=0.01 mid_radius:=0.009 dist_radius:=0.008 prox_mass:=0.02 mid_mass:=0.015 dist_mass:=0.01">
+    <!-- Abduction joint base link -->
+    <link name="${prefix}_abd_link">
+      <visual>
+        <geometry>
+          <sphere radius="0.012"/>
+        </geometry>
+        <material name="HandJoint"/>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.012"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-5" iyy="1e-5" izz="1e-5" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_abd" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${prefix}_abd_link"/>
+      <origin xyz="${origin_x} ${origin_y} ${origin_z}" rpy="0 0 0"/>
+      <axis xyz="${abd_axis}"/>
+      <limit lower="-0.35" upper="0.35" velocity="2.0" effort="2.0"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <!-- MCP joint -->
+    <xacro:phalange prefix="${prefix}" index="prox" length="${prox_length}" radius="${prox_radius}" mass="${prox_mass}" material="${material}"/>
+    <joint name="${prefix}_mcp" type="revolute">
+      <parent link="${prefix}_abd_link"/>
+      <child link="${prefix}_link_prox"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1.6" velocity="3.0" effort="2.5"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <!-- PIP joint -->
+    <xacro:phalange prefix="${prefix}" index="mid" length="${mid_length}" radius="${mid_radius}" mass="${mid_mass}" material="${material}"/>
+    <joint name="${prefix}_pip" type="revolute">
+      <parent link="${prefix}_link_prox"/>
+      <child link="${prefix}_link_mid"/>
+      <origin xyz="${prox_length} 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1.8" velocity="3.0" effort="2.0"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <!-- DIP joint -->
+    <xacro:phalange prefix="${prefix}" index="dist" length="${dist_length}" radius="${dist_radius}" mass="${dist_mass}" material="${material}"/>
+    <joint name="${prefix}_dip" type="revolute">
+      <parent link="${prefix}_link_mid"/>
+      <child link="${prefix}_link_dist"/>
+      <origin xyz="${mid_length} 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="2.0" velocity="3.0" effort="1.5"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="thumb_chain" params="prefix parent origin_x:=0 origin_y:=0 origin_z:=0 rotation_rpy:='0 0 0' prox_length:=0.035 mid_length:=0.025 dist_length:=0.02 prox_radius:=0.012 mid_radius:=0.01 dist_radius:=0.009 prox_mass:=0.018 mid_mass:=0.014 dist_mass:=0.01">
+    <link name="${prefix}_cmc_link">
+      <visual>
+        <geometry>
+          <sphere radius="0.013"/>
+        </geometry>
+        <material name="HandJoint"/>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.013"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.012"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-5" iyy="1e-5" izz="1e-5" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_cmc" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${prefix}_cmc_link"/>
+      <origin xyz="${origin_x} ${origin_y} ${origin_z}" rpy="${rotation_rpy}"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-0.79" upper="0.79" velocity="2.0" effort="2.5"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <xacro:phalange prefix="${prefix}" index="prox" length="${prox_length}" radius="${prox_radius}" mass="${prox_mass}" material="HandFinger"/>
+    <joint name="${prefix}_mcp" type="revolute">
+      <parent link="${prefix}_cmc_link"/>
+      <child link="${prefix}_link_prox"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1.6" velocity="3.0" effort="2.5"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <xacro:phalange prefix="${prefix}" index="mid" length="${mid_length}" radius="${mid_radius}" mass="${mid_mass}" material="HandFinger"/>
+    <joint name="${prefix}_ip_prox" type="revolute">
+      <parent link="${prefix}_link_prox"/>
+      <child link="${prefix}_link_mid"/>
+      <origin xyz="${prox_length} 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1.9" velocity="3.0" effort="2.0"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+
+    <xacro:phalange prefix="${prefix}" index="dist" length="${dist_length}" radius="${dist_radius}" mass="${dist_mass}" material="HandFinger"/>
+    <joint name="${prefix}_ip_dist" type="revolute">
+      <parent link="${prefix}_link_mid"/>
+      <child link="${prefix}_link_dist"/>
+      <origin xyz="${mid_length} 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="0" upper="1.9" velocity="3.0" effort="1.5"/>
+      <dynamics damping="0.01" friction="0.0"/>
+    </joint>
+  </xacro:macro>
+</robot>

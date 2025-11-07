@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hand Simulator Web App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>20-DOF Hand Simulator</h1>
+      <nav>
+        <button id="reload-urdf">Reload URDF</button>
+        <button id="reset-pose">Reset Pose</button>
+      </nav>
+    </header>
+    <main>
+      <section id="viewer-section">
+        <canvas id="viewer"></canvas>
+      </section>
+      <section id="control-section">
+        <div class="panel">
+          <h2>Joint Controls</h2>
+          <div id="joint-controls" class="scroll"></div>
+        </div>
+        <div class="panel">
+          <h2>Motions</h2>
+          <div class="motion-controls">
+            <select id="motion-select">
+              <option value="">-- Select motion --</option>
+            </select>
+            <button id="play-motion">Play</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Status</h2>
+          <div id="status-log" class="scroll"></div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>Backend: <code id="backend-url"></code></span>
+      <span>WebSocket: <code id="ws-status">disconnected</code></span>
+    </footer>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

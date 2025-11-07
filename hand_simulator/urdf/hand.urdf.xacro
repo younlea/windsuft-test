@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="anthro_hand">
+  <xacro:include filename="materials.xacro"/>
+  <xacro:include filename="macros/finger.xacro"/>
+
+  <xacro:macro name="hand" params="prefix">
+    <hand_materials/>
+
+    <link name="base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.08 0.075 0.02"/>
+        </geometry>
+        <material name="HandPalm"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.08 0.075 0.02"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.25"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.0005" iyy="0.0005" izz="0.0006" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!-- Thumb -->
+    <thumb_chain prefix="thumb" parent="base_link"
+                 origin_x="0.02" origin_y="-0.03" origin_z="0.0"
+                 rotation_rpy="0 0 -0.785"/>
+
+    <!-- Fingers -->
+    <finger_chain prefix="index" parent="base_link"
+                  origin_x="0.02" origin_y="0.015" origin_z="0.0"
+                  abd_axis="0 1 0"/>
+
+    <finger_chain prefix="middle" parent="base_link"
+                  origin_x="0.0" origin_y="0.0" origin_z="0.0"
+                  abd_axis="0 1 0"/>
+
+    <finger_chain prefix="ring" parent="base_link"
+                  origin_x="-0.02" origin_y="0.01" origin_z="0.0"
+                  abd_axis="0 1 0"/>
+
+    <finger_chain prefix="little" parent="base_link"
+                  origin_x="-0.035" origin_y="0.015" origin_z="0.0"
+                  abd_axis="0 1 0" prox_length="0.04" mid_length="0.028" dist_length="0.022"
+                  prox_radius="0.009" mid_radius="0.008" dist_radius="0.007"
+                  prox_mass="0.018" mid_mass="0.013" dist_mass="0.009"/>
+
+    <!-- World to base joint -->
+    <joint name="world_joint" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:hand prefix="hand"/>
+</robot>

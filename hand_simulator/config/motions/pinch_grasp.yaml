@@ -1,0 +1,33 @@
+name: pinch_grasp
+frequency: 50.0
+keyframes:
+  - time: 0.0
+    joints:
+      thumb_cmc: 0.1
+      thumb_mcp: 0.0
+      thumb_ip_prox: 0.0
+      thumb_ip_dist: 0.0
+      index_abd: 0.0
+      index_mcp: 0.0
+      index_pip: 0.0
+      index_dip: 0.0
+  - time: 0.8
+    joints:
+      thumb_cmc: 0.45
+      thumb_mcp: 0.6
+      thumb_ip_prox: 0.9
+      thumb_ip_dist: 0.8
+      index_abd: 0.05
+      index_mcp: 1.0
+      index_pip: 1.2
+      index_dip: 1.1
+  - time: 1.2
+    joints:
+      thumb_cmc: 0.45
+      thumb_mcp: 0.8
+      thumb_ip_prox: 1.1
+      thumb_ip_dist: 1.0
+      index_abd: 0.05
+      index_mcp: 1.2
+      index_pip: 1.4
+      index_dip: 1.3
