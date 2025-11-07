@@ -44,7 +44,7 @@ hand_simulator/
 
 Recommended Python packages:
 ```bash
-pip install fastapi uvicorn pybullet pybullet_data pyyaml xacro
+pip install fastapi uvicorn pybullet pyyaml xacro
 ```
 Frontend dependencies are loaded via ES modules/CDN in `frontend/index.html`, so no build step is required unless you want to customize the stack.
 
